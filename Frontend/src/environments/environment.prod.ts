@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://eateasy-backend-5ga7.onrender.com/api'
+    apiUrl: 'https://eateasy-deploy-backend.onrender.com/api'
 };
