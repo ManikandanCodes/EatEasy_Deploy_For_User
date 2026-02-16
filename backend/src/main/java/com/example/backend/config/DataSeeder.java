@@ -143,7 +143,6 @@ public class DataSeeder implements CommandLineRunner {
                         System.out.println("Manikandan's Bistrot already exists");
                         Restaurant existing = restaurantRepository.findByOwnerId(owner.getId()).get(0);
 
-                        // Ensure it has the correct name if it was previously changed
                         if (existing.getName().equals("Le Flamboyant")) {
                                 existing.setName("Manikandan's Bistrot");
                                 existing.setDescription("Fusion of Mauritian Flavors");
@@ -324,7 +323,7 @@ public class DataSeeder implements CommandLineRunner {
                         c2.setDiscount(20);
                         c2.setType(Coupon.DiscountType.PERCENTAGE);
                         c2.setExpiryDate(java.time.LocalDate.now().plusMonths(1));
-                        c2.setMinPurchaseAmount(0); // No limit for this one
+                        c2.setMinPurchaseAmount(0);
                         couponRepository.save(c2);
 
                         Coupon c3 = new Coupon();
@@ -336,15 +335,6 @@ public class DataSeeder implements CommandLineRunner {
                         couponRepository.save(c3);
 
                         System.out.println("Coupons seeded");
-                } else {
-                        // Check if WELCOME50 needs update
-                        couponRepository.findByCode("WELCOME50").ifPresent(c -> {
-                                if (c.getMinPurchaseAmount() == 0) {
-                                        c.setMinPurchaseAmount(500);
-                                        couponRepository.save(c);
-                                        System.out.println("Updated WELCOME50 min purchase amount");
-                                }
-                        });
                 }
         }
 
@@ -392,32 +382,15 @@ public class DataSeeder implements CommandLineRunner {
                         seedMenuForRestaurant(r, restaurantId);
                         System.out.println("Created Restaurant: " + restaurantName);
                 } else {
-                        // Force update for prototype transition
-                        r.setName(restaurantName);
-                        r.setDescription(description);
-                        r.setAddress(address);
-                        r.setCuisines(cuisines);
-                        r.setImageUrl(imageUrl);
-
                         if (r.getOpeningHours() == null || r.getOpeningHours().isEmpty()) {
                                 r.setOpeningHours("9 AM - 10 PM");
-                        }
-
-                        restaurantRepository.save(r);
-
-                        // Clear existing menu items for restaurants 4-30
-                        if (restaurantId >= 4 && restaurantId <= 30) {
-                                menuCategoryRepository.findByRestaurant(r).forEach(cat -> {
-                                        menuItemRepository.findByCategory(cat).forEach(item -> {
-                                                menuItemRepository.delete(item);
-                                        });
-                                        menuCategoryRepository.delete(cat);
-                                });
+                                restaurantRepository.save(r);
                         }
 
                         seedMenuForRestaurant(r, restaurantId);
-                        System.out.println("Updated existing restaurant: " + restaurantName);
+                        System.out.println("Restaurant already exists, skipping overwrite: " + restaurantName);
                 }
+
         }
 
         private void seedMenuForRestaurant(Restaurant r, int restaurantId) {
@@ -479,7 +452,6 @@ public class DataSeeder implements CommandLineRunner {
                         seedMenu(r);
         }
 
-        // Restaurant 4: La Table du Château - Fine European Dining
         private void seedChateauMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -519,7 +491,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 5: Chez Tante Aurius - Seafood & Creole
         private void seedTanteAuriusMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -558,7 +529,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 6: Dragon Palace - Chinese-Mauritian
         private void seedDragonPalaceMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -597,7 +567,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 7: Dewan - Indian-Mauritian (Briani specialist)
         private void seedDewanMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -636,7 +605,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 8: Ti Kouloir - Street Food
         private void seedTiKouloirMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -675,7 +643,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 9: Happy Rajah - Indian-Mauritian
         private void seedHappyRajahMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -698,7 +665,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 10: Le Capitaine - Seafood
         private void seedLeCapitaineMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -721,7 +687,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 11: Luigi's Italian Pizzeria
         private void seedLuigiMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -744,7 +709,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 12: Le Flamboyant - Creole
         private void seedFlamboyantMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -767,7 +731,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 13: Le Chamarel Restaurant - Panoramic Creole
         private void seedChamarelMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -790,7 +753,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 14: Le Fangourin - Refined
         private void seedFangourinMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -813,7 +775,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 15: Sunshine Fusion - Fusion
         private void seedSunshineMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -836,7 +797,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 16: The Boathouse Grill - Seafood/Grill
         private void seedBoathouseMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -859,7 +819,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 17: La Voglia Matta - Italian
         private void seedVogliaMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -882,7 +841,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 18: Domaine Anna - Chinese-Mauritian
         private void seedDomaineAnnaMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -905,7 +863,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 19: Saffron Grill - Indian
         private void seedSaffronMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -928,7 +885,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 20: Antonio - Italian
         private void seedAntonioMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding unique menu for: " + r.getName());
@@ -951,7 +907,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 21: Le Pescatore - Fine Seafood
         private void seedPescatoreMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory fine = new MenuCategory();
@@ -972,7 +927,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 22: Green Island - Beach
         private void seedGreenIslandMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory beach = new MenuCategory();
@@ -993,7 +947,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 23: Opium - Chinese
         private void seedOpiumMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory modern = new MenuCategory();
@@ -1014,7 +967,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 24: Tandoori Express
         private void seedTandooriMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory quick = new MenuCategory();
@@ -1035,7 +987,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 25: Grill & Chill
         private void seedGrillChillMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory grill = new MenuCategory();
@@ -1056,7 +1007,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 26: Ocean Basket
         private void seedOceanBasketMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory seafood = new MenuCategory();
@@ -1077,7 +1027,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 27: Mugg & Bean
         private void seedMuggBeanMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory cafe = new MenuCategory();
@@ -1098,7 +1047,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 28: Panarottis
         private void seedPanarottisMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory pizza = new MenuCategory();
@@ -1119,7 +1067,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 29: Rozi Darbarr
         private void seedRoziMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory royal = new MenuCategory();
@@ -1140,7 +1087,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Restaurant 30: Savinia Bistrot
         private void seedSaviniaMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         MenuCategory steak = new MenuCategory();
@@ -1161,7 +1107,6 @@ public class DataSeeder implements CommandLineRunner {
                 }
         }
 
-        // Default menu method (for restaurants 0-3 and 9+)
         private void seedMenu(Restaurant r) {
                 if (menuCategoryRepository.findByRestaurant(r).isEmpty()) {
                         System.out.println("Seeding menu for: " + r.getName());
@@ -1194,33 +1139,28 @@ public class DataSeeder implements CommandLineRunner {
                         String cuisine = r.getCuisines().toLowerCase();
 
                         if (cuisine.contains("creole") || cuisine.contains("seafood")) {
-                                // Breakfast
                                 createItem(breakfast, "Pain Maison", "Fresh bread with butter and jam", 50, true,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=Pain+Maison");
                                 createItem(breakfast, "Gateau Piment Sandwich", "Bread with chili cakes", 40, true,
                                                 "https://placehold.co/400x300/FF6347/FFFFFF?text=Gateau+Piment");
 
-                                // Lunch
                                 createItem(lunch, "Fish Vindaye", "Pickled fish with mustard seeds and rice", 300,
                                                 false,
                                                 "https://placehold.co/400x300/4682B4/FFFFFF?text=Fish+Vindaye");
                                 createItem(lunch, "Rougaille Saucisse", "Sausages in spicy tomato sauce", 250, false,
                                                 "https://placehold.co/400x300/DC143C/FFFFFF?text=Rougaille+Saucisse");
 
-                                // Dinner
                                 createItem(dinner, "Grilled Fish", "Catch of the day with lemon butter sauce", 380,
                                                 false,
                                                 "https://placehold.co/400x300/20B2AA/FFFFFF?text=Grilled+Fish");
                                 createItem(dinner, "Octopus Curry", "Tender octopus slow cooked in spices", 450, false,
                                                 "https://placehold.co/400x300/8B008B/FFFFFF?text=Octopus+Curry");
 
-                                // Snacks
                                 createItem(snacks, "Samoussa", "Fried pastry with savory filling", 25, true,
                                                 "https://placehold.co/400x300/DAA520/FFFFFF?text=Samoussa");
                                 createItem(snacks, "Gateau Arouille", "Taro fritters", 30, true,
                                                 "https://placehold.co/400x300/8B7355/FFFFFF?text=Gateau+Arouille");
 
-                                // Dessert
                                 createItem(desserts, "Banana Tart", "Shortcrust pastry with banana filling", 80, true,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Banana+Tart");
                                 createItem(desserts, "Caramelized Pineapple", "Pineapple slices with cinnamon", 120,
@@ -1228,164 +1168,138 @@ public class DataSeeder implements CommandLineRunner {
                                                 "https://placehold.co/400x300/FFA500/FFFFFF?text=Pineapple");
 
                         } else if (cuisine.contains("italian") || cuisine.contains("pizza")) {
-                                // Breakfast
                                 createItem(breakfast, "Espresso & Biscotti", "Strong coffee with almond biscuits", 120,
                                                 true,
                                                 "https://placehold.co/400x300/654321/FFFFFF?text=Espresso");
                                 createItem(breakfast, "Frittata", "Italian style omelet with spinach", 180, true,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Frittata");
 
-                                // Lunch
                                 createItem(lunch, "Spaghetti Carbonara", "Pasta with creamy sauce and bacon", 280,
                                                 false,
                                                 "https://placehold.co/400x300/F5DEB3/000000?text=Carbonara");
                                 createItem(lunch, "Caprese Salad", "Tomatoes, fresh mozzarella and basil", 220, true,
                                                 "https://placehold.co/400x300/228B22/FFFFFF?text=Caprese");
 
-                                // Dinner
                                 createItem(dinner, "Marlin Pizza", "Wood-fired pizza with smoked marlin", 350, false,
                                                 "https://placehold.co/400x300/FF6347/FFFFFF?text=Pizza");
                                 createItem(dinner, "Lasagna", "Layered pasta with meat sauce", 320, false,
                                                 "https://placehold.co/400x300/CD853F/FFFFFF?text=Lasagna");
 
-                                // Snacks
                                 createItem(snacks, "Bruschetta", "Grilled bread with tomatoes and basil", 150, true,
                                                 "https://placehold.co/400x300/FF4500/FFFFFF?text=Bruschetta");
                                 createItem(snacks, "Garlic Bread", "Toasted bread with garlic butter", 100, true,
                                                 "https://placehold.co/400x300/D2691E/FFFFFF?text=Garlic+Bread");
 
-                                // Dessert
                                 createItem(desserts, "Panna Cotta", "Creamy Italian pudding", 150, true,
                                                 "https://placehold.co/400x300/FFF8DC/000000?text=Panna+Cotta");
                                 createItem(desserts, "Tiramisu", "Coffee flavored masterpiece", 200, true,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=Tiramisu");
 
                         } else if (cuisine.contains("chinese-mauritian")) {
-                                // Breakfast
                                 createItem(breakfast, "Rice Congee", "Savory rice porridge", 150, true,
                                                 "https://placehold.co/400x300/F5F5DC/000000?text=Congee");
                                 createItem(breakfast, "Steamed Bao", "Fluffy buns with filling", 100, true,
                                                 "https://placehold.co/400x300/FFFACD/000000?text=Bao");
 
-                                // Lunch
                                 createItem(lunch, "Mine Frire", "Mauritian fried noodles with egg and veg", 180, true,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Mine+Frire");
                                 createItem(lunch, "Bol Renversé", "Magic bowl with rice, egg and chop suey", 250, false,
                                                 "https://placehold.co/400x300/FF8C00/FFFFFF?text=Bol+Renverse");
 
-                                // Dinner
                                 createItem(dinner, "Sizzling Beef", "Beef stir-fry served on hot plate", 350, false,
                                                 "https://placehold.co/400x300/8B0000/FFFFFF?text=Sizzling+Beef");
                                 createItem(dinner, "Sweet and Sour Fish", "Crispy fish in tangy sauce", 320, false,
                                                 "https://placehold.co/400x300/FF6347/FFFFFF?text=Sweet+Sour+Fish");
 
-                                // Snacks
                                 createItem(snacks, "Wonton Frit", "Fried dumplings", 100, false,
                                                 "https://placehold.co/400x300/DAA520/FFFFFF?text=Wonton");
                                 createItem(snacks, "Spring Rolls", "Crispy vegetable rolls", 80, true,
                                                 "https://placehold.co/400x300/CD853F/FFFFFF?text=Spring+Rolls");
 
-                                // Dessert
                                 createItem(desserts, "Grass Jelly", "Refreshing herbal jelly", 90, true,
                                                 "https://placehold.co/400x300/2F4F4F/FFFFFF?text=Grass+Jelly");
                                 createItem(desserts, "Mooncake", "Dense pastry with sweet filling", 150, true,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Mooncake");
 
                         } else if (cuisine.contains("indian-mauritian")) {
-                                // Breakfast
                                 createItem(breakfast, "Puri Bhaji", "Fried bread with potato curry", 120, true,
                                                 "https://placehold.co/400x300/FF8C00/FFFFFF?text=Puri+Bhaji");
                                 createItem(breakfast, "Masala Tea", "Spiced milk tea", 50, true,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=Masala+Tea");
 
-                                // Lunch
                                 createItem(lunch, "Chicken Briani", "Aromatic rice with chicken and spices", 280, false,
                                                 "https://placehold.co/400x300/DAA520/FFFFFF?text=Briani");
                                 createItem(lunch, "Dholl Puri", "Flatbread stuffed with yellow peas, served with curry",
                                                 60, true,
                                                 "https://placehold.co/400x300/F4A460/000000?text=Dholl+Puri");
 
-                                // Dinner
                                 createItem(dinner, "Butter Chicken", "Chicken in creamy tomato sauce", 350, false,
                                                 "https://placehold.co/400x300/FF6347/FFFFFF?text=Butter+Chicken");
                                 createItem(dinner, "Mutton Rogan Josh", "Slow cooked mutton curry", 400, false,
                                                 "https://placehold.co/400x300/8B0000/FFFFFF?text=Rogan+Josh");
 
-                                // Snacks
                                 createItem(snacks, "Pakora", "Deep fried veggie fritters", 80, true,
                                                 "https://placehold.co/400x300/CD853F/FFFFFF?text=Pakora");
                                 createItem(snacks, "Chilli Cakes", "Gateau Piment", 40, true,
                                                 "https://placehold.co/400x300/FF4500/FFFFFF?text=Chilli+Cakes");
 
-                                // Dessert
                                 createItem(desserts, "Alouda", "Sweet milk drink with basil seeds", 70, true,
                                                 "https://placehold.co/400x300/FFB6C1/000000?text=Alouda");
                                 createItem(desserts, "Rasgulla", "Soft cheese balls in syrup", 100, true,
                                                 "https://placehold.co/400x300/FFFACD/000000?text=Rasgulla");
 
                         } else if (cuisine.contains("street food")) {
-                                // Breakfast
                                 createItem(breakfast, "Roti Aka", "Flatbread with curries", 50, true,
                                                 "https://placehold.co/400x300/D2B48C/000000?text=Roti+Aka");
                                 createItem(breakfast, "Gateau Piment", "Chili cakes", 40, true,
                                                 "https://placehold.co/400x300/FF6347/FFFFFF?text=Gateau+Piment");
 
-                                // Lunch
                                 createItem(lunch, "Boulettes Soup", "Dumpling soup", 150, false,
                                                 "https://placehold.co/400x300/F0E68C/000000?text=Boulettes");
                                 createItem(lunch, "Mine Bouilli", "Boiled noodles with toppings", 120, false,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Mine+Bouilli");
 
-                                // Dinner
                                 createItem(dinner, "Halim", "Spicy wheat and meat soup", 180, false,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=Halim");
                                 createItem(dinner, "Kebab", "Grilled meat in baguette", 150, false,
                                                 "https://placehold.co/400x300/A0522D/FFFFFF?text=Kebab");
 
-                                // Snacks
                                 createItem(snacks, "Baja", "Fried chickpea flour fritters", 40, true,
                                                 "https://placehold.co/400x300/DAA520/FFFFFF?text=Baja");
                                 createItem(snacks, "Samosa", "Veggie samosa", 25, true,
                                                 "https://placehold.co/400x300/CD853F/FFFFFF?text=Samosa");
 
-                                // Dessert
                                 createItem(desserts, "Napolitaine", "Shortbread with pink icing", 50, true,
                                                 "https://placehold.co/400x300/FFB6C1/000000?text=Napolitaine");
                                 createItem(desserts, "Laddoo", "Sweet gram flour balls", 40, true,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Laddoo");
 
                         } else if (cuisine.contains("european")) {
-                                // Breakfast
                                 createItem(breakfast, "Croissant", "Buttery pastry", 80, true,
                                                 "https://placehold.co/400x300/D2691E/FFFFFF?text=Croissant");
                                 createItem(breakfast, "English Breakfast", "Eggs, sausages, beans, toast", 250, false,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=English+Breakfast");
 
-                                // Lunch
                                 createItem(lunch, "Smoked Marlin Salad", "Fresh salad with smoked marlin", 280, false,
                                                 "https://placehold.co/400x300/228B22/FFFFFF?text=Marlin+Salad");
                                 createItem(lunch, "Club Sandwich", "Triple decker sandwich with chicken", 220, false,
                                                 "https://placehold.co/400x300/F4A460/000000?text=Club+Sandwich");
 
-                                // Dinner
                                 createItem(dinner, "Steak Frites", "Grilled steak with french fries", 450, false,
                                                 "https://placehold.co/400x300/8B0000/FFFFFF?text=Steak+Frites");
                                 createItem(dinner, "Lobster Thermidor", "Lobster with creamy sauce", 800, false,
                                                 "https://placehold.co/400x300/DC143C/FFFFFF?text=Lobster");
 
-                                // Snacks
                                 createItem(snacks, "Quiche Lorraine", "Savory tart", 150, false,
                                                 "https://placehold.co/400x300/FFD700/000000?text=Quiche");
                                 createItem(snacks, "Mini Burgers", "Sliders", 180, false,
                                                 "https://placehold.co/400x300/8B4513/FFFFFF?text=Mini+Burgers");
 
-                                // Dessert
                                 createItem(desserts, "Crème Brûlée", "Custard with caramelized sugar", 200, true,
                                                 "https://placehold.co/400x300/FFFACD/000000?text=Creme+Brulee");
                                 createItem(desserts, "Chocolate Fondant", "Molten chocolate cake", 220, true,
                                                 "https://placehold.co/400x300/654321/FFFFFF?text=Chocolate+Fondant");
                         } else {
-                                // Default
                                 createItem(breakfast, "Toast & Jam", "Bread with fruit jam", 50, true,
                                                 "https://placehold.co/400x300/D2691E/FFFFFF?text=Toast+Jam");
                                 createItem(lunch, "Burger", "Classic burger", 150, false,
