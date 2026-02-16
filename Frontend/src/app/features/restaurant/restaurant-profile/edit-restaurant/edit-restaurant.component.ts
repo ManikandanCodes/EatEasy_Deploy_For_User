@@ -48,6 +48,7 @@ export class EditRestaurantComponent implements OnInit {
     updatePhone(event: any) { this.restaurant.phone = event.target.value; }
     updateDescription(event: any) { this.restaurant.description = event.target.value; }
     updateImageUrl(event: any) { this.restaurant.imageUrl = event.target.value; }
+    updateOpeningHours(event: any) { this.restaurant.openingHours = event.target.value; }
     updateIsOpen(event: any) { this.restaurant.isOpen = event.target.checked; }
 
     saveChanges() {

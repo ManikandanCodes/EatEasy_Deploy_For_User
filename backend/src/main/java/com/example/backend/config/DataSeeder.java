@@ -123,36 +123,6 @@ public class DataSeeder implements CommandLineRunner {
                         System.out.println("Owner user already exists");
                 }
 
-                if (owner != null && restaurantRepository.findByOwnerId(owner.getId()).isEmpty()) {
-
-                        Restaurant r = new Restaurant();
-                        r.setName("Manikandan's Bistrot");
-                        r.setDescription("Fusion of Mauritian Flavors");
-                        r.setAddress("123, Royal Road, Port Louis");
-                        r.setCuisines("Creole, Fusion");
-                        r.setImageUrl("https://images.unsplash.com/photo-1589302168068-964664d93dc0");
-                        r.setOwner(owner);
-                        r.setStatus(Restaurant.ApprovalStatus.APPROVED);
-                        r.setRating(4.5);
-                        r.setOpeningHours("9 AM - 10 PM");
-
-                        restaurantRepository.save(r);
-
-                        System.out.println("Restaurant created: Manikandan's Bistrot");
-                } else {
-                        System.out.println("Manikandan's Bistrot already exists");
-                        Restaurant existing = restaurantRepository.findByOwnerId(owner.getId()).get(0);
-
-                        if (existing.getName().equals("Le Flamboyant")) {
-                                existing.setName("Manikandan's Bistrot");
-                                existing.setDescription("Fusion of Mauritian Flavors");
-                                existing.setAddress("123, Royal Road, Port Louis");
-                                existing.setCuisines("Creole, Fusion");
-                                restaurantRepository.save(existing);
-                                System.out.println("Restored Manikandan's Bistrot name");
-                        }
-                }
-
                 createOwnerAndRestaurant("Le Café Owner", "owner1@eateasy.com", "owner1",
                                 "Le Café du Vieux Conseil", "Charming cafe in a historic setting.",
                                 "Vieux Conseil Street, Port Louis", "Creole, European",
