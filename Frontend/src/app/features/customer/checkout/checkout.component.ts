@@ -76,7 +76,7 @@ export class CheckoutComponent {
         }
 
         this.calculateTotal();
-        alert(`Coupon applied! You saved ₹${this.discountAmount}`);
+        alert(`Coupon applied! You saved Rs ${this.discountAmount}`);
       },
       error: (err) => {
         console.error('Coupon error', err);

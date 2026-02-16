@@ -20,7 +20,7 @@
       </div>
 
       <div class="form-group">
-        <label>Min Purchase (₹)</label>
+        <label>Min Purchase (Rs)</label>
         <input type="number" [(ngModel)]="minPurchaseAmount" placeholder="e.g., 500">
       </div>
     </div>
@@ -30,7 +30,7 @@
         <label>Discount Type</label>
         <select [(ngModel)]="type">
           <option value="PERCENTAGE">Percentage (%)</option>
-          <option value="FLAT">Flat Amount (₹)</option>
+          <option value="FLAT">Flat Amount (Rs)</option>
         </select>
       </div>
 
@@ -93,10 +93,10 @@
               <span class="coupon-code">{{ c.code }}</span>
             </td>
             <td>
-              <span class="discount-value">{{ c.discount }}{{ c.type === 'PERCENTAGE' ? '%' : '₹' }}</span>
+              <span class="discount-value">{{ c.discount }}{{ c.type === 'PERCENTAGE' ? '%' : 'Rs ' }}</span>
             </td>
             <td>
-              <span class="discount-value">₹{{ c.minPurchaseAmount || 0 }}</span>
+              <span class="discount-value">Rs {{ c.minPurchaseAmount || 0 }}</span>
             </td>
             <td>
               <span class="type-badge" [ngClass]="c.type.toLowerCase()">
@@ -121,7 +121,7 @@
       <div class="coupon-card" *ngFor="let c of coupons">
         <div class="coupon-card-header">
           <span class="coupon-code">{{ c.code }}</span>
-          <span class="discount-value">{{ c.discount }}{{ c.type === 'PERCENTAGE' ? '%' : '₹' }}</span>
+          <span class="discount-value">{{ c.discount }}{{ c.type === 'PERCENTAGE' ? '%' : 'Rs ' }}</span>
         </div>
 
         <div class="coupon-card-row">

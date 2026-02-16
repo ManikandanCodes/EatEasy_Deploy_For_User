@@ -16,7 +16,7 @@
       </div>
       <div class="order-total">
         <span class="label">Total Amount</span>
-        <span class="amount">₹{{ order.totalPrice }}</span>
+        <span class="amount">Rs {{ order.totalPrice }}</span>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
         </div>
       </div>
 
- 
+
       <div class="summary-section">
         <h4>Order Details</h4>
         <div class="items-list">
@@ -52,18 +52,18 @@
               <span class="item-name">{{ item.menuItem?.name || item.name }}</span>
               <span class="item-quantity">x {{ item.quantity }}</span>
             </div>
-            <span class="item-price">₹{{ item.price * item.quantity }}</span>
+            <span class="item-price">Rs {{ item.price * item.quantity }}</span>
           </div>
         </div>
 
         <div class="summary-footer">
           <div class="row">
             <span>Subtotal</span>
-            <span>₹{{ order.totalPrice }}</span> 
+            <span>Rs {{ order.totalPrice }}</span>
           </div>
           <div class="row total">
             <span>Grand Total</span>
-            <span>₹{{ order.totalPrice }}</span>
+            <span>Rs {{ order.totalPrice }}</span>
           </div>
         </div>
       </div>

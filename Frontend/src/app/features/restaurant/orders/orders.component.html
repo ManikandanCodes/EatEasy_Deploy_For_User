@@ -24,20 +24,21 @@
           <p><strong>Customer:</strong> <span>{{ order.customer?.name || 'N/A' }}</span></p>
           <p><strong>Phone:</strong> <span>{{ order.cell || order.customer?.cell || 'N/A' }}</span></p>
           <p><strong>Address:</strong> <span>{{ order.deliveryAddress || order.address || 'N/A' }}</span></p>
-          <p><strong>Total:</strong> <span>₹{{ order.totalPrice }}</span></p>
+          <p><strong>Total:</strong> <span>Rs {{ order.totalPrice }}</span></p>
         </div>
 
         <h4>Items</h4>
         <ul>
           <li *ngFor="let item of order.items">
             <span>{{ item.menuItem?.name || item.name }}</span>
-            <span>×{{ item.quantity }} · ₹{{ (item.price * item.quantity) }}</span>
+            <span>×{{ item.quantity }} · Rs {{ (item.price * item.quantity) }}</span>
           </li>
         </ul>
 
         <div class="review-section" *ngIf="order.rating">
           <h4>Customer Review</h4>
-          <p class="rating">{{ '★'.repeat(order.rating) }} <span style="color:#6b7280; font-size: 0.8em; font-weight: normal;">({{order.rating}}/5)</span></p>
+          <p class="rating">{{ '★'.repeat(order.rating) }} <span
+              style="color:#6b7280; font-size: 0.8em; font-weight: normal;">({{order.rating}}/5)</span></p>
           <p class="comment" *ngIf="order.reviewComment">"{{ order.reviewComment }}"</p>
         </div>
       </div>

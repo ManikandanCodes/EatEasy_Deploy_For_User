@@ -18,7 +18,7 @@
 
       <p class="date">{{ o.orderTime | date:'medium' }}</p>
 
-      <p class="amount">Total: ₹{{ o.totalPrice }}</p>
+      <p class="amount">Total: Rs {{ o.totalPrice }}</p>
 
       <div class="items">
         <span *ngFor="let item of o.items">

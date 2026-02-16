@@ -25,11 +25,11 @@
 
     <div class="card">
       <h3>Total Revenue</h3>
-      <p>₹ {{ analytics.totalRevenue }}</p>
+      <p>Rs {{ analytics.totalRevenue }}</p>
     </div>
   </div>
 
-  
+
   <h3 class="section-title">Top Restaurants</h3>
   <ul class="list">
     <li *ngFor="let r of analytics.topRestaurants">
@@ -52,7 +52,7 @@
       <tr *ngFor="let m of analytics.monthlyStats">
         <td>{{ m.month }}</td>
         <td>{{ m.orders }}</td>
-        <td>₹ {{ m.revenue }}</td>
+        <td>Rs {{ m.revenue }}</td>
       </tr>
     </tbody>
   </table>

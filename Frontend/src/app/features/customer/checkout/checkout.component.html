@@ -30,25 +30,25 @@
 
     <div *ngFor="let item of items" class="summary-item">
       <span>{{ item.name }} x {{ item.quantity }}</span>
-      <span>₹{{ item.price * item.quantity }}</span>
+      <span>Rs {{ item.price * item.quantity }}</span>
     </div>
 
     <hr>
 
-    <p>Subtotal <span>₹{{ subtotal }}</span></p>
-    <p>Tax (5%) <span>₹{{ tax }}</span></p>
-    <p>Delivery Fee <span>₹{{ deliveryFee }}</span></p>
+    <p>Subtotal <span>Rs {{ subtotal }}</span></p>
+    <p>Tax (5%) <span>Rs {{ tax }}</span></p>
+    <p>Delivery Fee <span>Rs {{ deliveryFee }}</span></p>
 
     <div class="coupon-row">
       <input type="text" [(ngModel)]="couponCode" placeholder="Code">
       <button (click)="applyCoupon()">Apply</button>
     </div>
 
-    <p *ngIf="discountAmount > 0" style="color: green;">Discount <span>-₹{{ discountAmount }}</span></p>
+    <p *ngIf="discountAmount > 0" style="color: green;">Discount <span>-Rs {{ discountAmount }}</span></p>
 
     <hr>
 
-    <h3 class="total">Total <span>₹{{ total }}</span></h3>
+    <h3 class="total">Total <span>Rs {{ total }}</span></h3>
 
     <button class="place-btn" (click)="placeOrder()">Place Order</button>
   </div>

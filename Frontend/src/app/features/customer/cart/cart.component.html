@@ -11,7 +11,7 @@
   <div class="item" *ngFor="let item of items">
     <div class="details">
       <h3>{{ item.name }}</h3>
-      <p>₹{{ item.price }}</p>
+      <p>Rs {{ item.price }}</p>
     </div>
 
     <div class="actions">
@@ -26,11 +26,11 @@
 
 
   <div class="summary">
-    <p>Subtotal <span>₹{{ subtotal }}</span></p>
-    <p>Tax (5%) <span>₹{{ tax }}</span></p>
-    <p>Delivery Fee <span>₹{{ deliveryFee }}</span></p>
+    <p>Subtotal <span>Rs {{ subtotal }}</span></p>
+    <p>Tax (5%) <span>Rs {{ tax }}</span></p>
+    <p>Delivery Fee <span>Rs {{ deliveryFee }}</span></p>
     <hr>
-    <p class="total">Grand Total <span>₹{{ total }}</span></p>
+    <p class="total">Grand Total <span>Rs {{ total }}</span></p>
   </div>
 
 
