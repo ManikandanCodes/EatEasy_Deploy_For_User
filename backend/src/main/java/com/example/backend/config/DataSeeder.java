@@ -10,6 +10,7 @@ import com.example.backend.repository.UserRepository;
 import com.example.backend.repository.CouponRepository;
 import com.example.backend.model.Coupon;
 import com.example.backend.repository.RestaurantRepository;
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -121,6 +122,26 @@ public class DataSeeder implements CommandLineRunner {
                                 System.out.println("Owner updated (Role/Password)");
                         }
                         System.out.println("Owner user already exists");
+                }
+
+                if (owner != null) {
+                        List<Restaurant> existing = restaurantRepository.findByOwnerId(owner.getId());
+                        for (Restaurant r : existing) {
+                                if ("Manikandan's Bistrot".equals(r.getName())) {
+                                        try {
+                                                // Try to delete the restaurant completely
+                                                restaurantRepository.delete(r);
+                                                System.out.println("Cleaned up: Manikandan's Bistrot deleted.");
+                                        } catch (Exception e) {
+                                                // If deletion fails (e.g. due to foreign keys), hide it
+                                                r.setStatus(Restaurant.ApprovalStatus.REJECTED);
+                                                r.setOpen(false);
+                                                restaurantRepository.save(r);
+                                                System.out.println(
+                                                                "Cleaned up: Manikandan's Bistrot hidden (soft delete).");
+                                        }
+                                }
+                        }
                 }
 
                 createOwnerAndRestaurant("Le Café Owner", "owner1@eateasy.com", "owner1",
