@@ -352,6 +352,59 @@
     font-size: 2rem;
   }
 
+  /* Improved Mobile Meta Layout */
+  .banner-meta {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  /* Reorder items: Rating & Status first */
+  .rating {
+    order: 1;
+    margin-right: 0.5rem;
+  }
+
+  .status-badge {
+    order: 2;
+  }
+
+  /* Force Cuisine and Hours to their own lines below */
+  .cuisine {
+    order: 3;
+    flex-basis: 100%;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    /* Ensure alignment with icon */
+    display: flex;
+    align-items: center;
+  }
+
+  .opening-hours {
+    order: 4;
+    flex-basis: 100%;
+    padding-left: 0;
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Reset pseudo-elements */
+  .cuisine::before {
+    content: '🍽️';
+    position: static;
+    margin-right: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  /* Hide the dot separator for hours (clock icon is in HTML) */
+  .opening-hours::before {
+    display: none;
+  }
+
   .menu-section {
     padding: 0 1rem;
   }
