@@ -25,7 +25,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        
         JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil, userRepo);
 
         http
@@ -33,7 +32,6 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .formLogin(form -> form.disable())
 
-                
                 .cors(cors -> cors.configurationSource(request -> {
                     var c = new org.springframework.web.cors.CorsConfiguration();
                     c.setAllowedOriginPatterns(java.util.List.of("*"));
@@ -49,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/public/**").permitAll()
 
                         .requestMatchers("/api/restaurants/**").permitAll()
                         .requestMatchers("/api/restaurant/**").permitAll()
@@ -70,9 +69,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/orders/all").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
 
-
                         .anyRequest().authenticated())
-
 
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
